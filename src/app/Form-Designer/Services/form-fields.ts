@@ -8,11 +8,13 @@ export class FormFields {
   pages: Page[] = [];
 
   addNewPage() {
-    const newPageId = crypto.randomUUID;
-    const pageNumber= this.pages.length;
-    this.pages.push({ id: newPageId.toString(), title: `Page ${pageNumber}`, questions: [] });
+    const pageNumber= this.pages.length+1;
+    this.pages.push({ id:crypto.randomUUID().toString(), title: `Page ${pageNumber}`, questions: [] });
   }
 
+  deletePage(pageId: string) {
+    this.pages = this.pages.filter((p) => p.id !== pageId);
+  }
 
   addQuestionToPage(pageId: string,questionType='shortText') {
     const page = this.pages.find((p) => p.id === pageId); 
