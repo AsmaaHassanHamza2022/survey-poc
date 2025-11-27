@@ -30,7 +30,11 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/survey-core/survey-core.min.css",
+              "node_modules/survey-creator-core/survey-creator-core.min.css"
+
             ]
           },
           "configurations": {
@@ -88,7 +92,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/survey-core/survey-core.min.css"
             ]
           }
         }

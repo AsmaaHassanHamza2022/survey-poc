@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-body">
+        <div class="designer-section d-flex flex-column gap-3 h-100vh">
+            @for (page of formFieldsService.pages; track page.id) {
+            <div class="card p-3 bg-grey d-flex flex-column gap-3">
+                @for (question of page.questions; track question.id) {
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div class="form-group d-flex flex-column gap-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label [for]="question.id" class="form-label h5">{{ question.questionText }}</label>
+                                    <app-form-field [question]="question"></app-form-field>
+                                    <p class="text-muted">{{ question.descriptionText }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>
