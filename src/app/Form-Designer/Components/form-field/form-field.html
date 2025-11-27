@@ -1,4 +1,12 @@
-    @if(componentRef()){
-    <ng-container *ngComponentOutlet="componentRef()"></ng-container>
+@if(componentRef()){
+@if(isDesignMode()){
+<label class="mb-3">{{fieldLabel()}}</label>
 
-    }
+}
+<ng-container
+  *ngComponentOutlet="
+      componentRef();
+      inputs: { designMode: isDesignMode() ,question: question() }
+  "
+></ng-container>
+}

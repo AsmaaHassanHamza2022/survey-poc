@@ -7,6 +7,8 @@ import { Component, input } from '@angular/core';
   styleUrl: './short-text-field.scss',
 })
 export class ShortTextField {
+  designMode=input<boolean>();
+
   field=input.required();
 
 }

@@ -1,9 +1,7 @@
 <div class="long-text-field">
   <textarea 
-   disabled
+   [disabled]="designMode()"
    rows="10"
-    [id]="field().id"
-    [placeholder]="'placeholder'"
     class="form-control textarea-input">
   </textarea>
 </div>

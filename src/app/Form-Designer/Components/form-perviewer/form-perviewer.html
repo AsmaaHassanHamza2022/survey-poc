@@ -1,25 +1,27 @@
-<div class="card">
-    <div class="card-body">
-        <div class="designer-section d-flex flex-column gap-3 h-100vh">
-            @for (page of formFieldsService.pages; track page.id) {
-            <div class="card p-3 bg-grey d-flex flex-column gap-3">
-                @for (question of page.questions; track question.id) {
-                <div class="card w-100">
-                    <div class="card-body">
-                        <div class="form-group d-flex flex-column gap-3">
-                            <div class="row">
-                                <div class="col-12">
-                                    <label [for]="question.id" class="form-label h5">{{ question.questionText }}</label>
-                                    <app-form-field [question]="question"></app-form-field>
-                                    <p class="text-muted">{{ question.descriptionText }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
-            }
+<div class="previwer">
+    @for(page of formFieldsService.pages;track page.id;let pageIndex=$index) {
+    <div class="page my-4 p-3 border border-secondary rounded">
+        <div class="page-header d-flex justify-content-between align-items-center mb-3">
+            <h4> {{page.title}} </h4>
         </div>
+
+        @for(question of page.questions;track question.id) {
+        <div class="question mb-4 p-3">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <h5>{{question.questionText}} @if(question.isRequired){
+                        <span class="text-danger">*</span>
+                        }
+                    </h5>
+                    <app-form-field [question]="question" [isDesignMode]="false"></app-form-field>
+                    @if(question.descriptionText){
+                    <p class="text-secondary">{{question.descriptionText}}</p>
+                    }
+                </div>
+            </div>
+
+        </div>
+        }
     </div>
+    }
 </div>

@@ -10,12 +10,20 @@ import { Question } from '../../models/models';
   styleUrl: './form-field.scss',
 })
 export class FormField {
+isDesignMode=input<boolean>();
 question=input.required<Question>();
 fieldsTypesService=inject(FieldsTypesDefinitions);
-componentRef=computed(()=>{
-  const componentDef=this.fieldsTypesService.getTypeComponent(this.question().type);
-  return componentDef?.component ||null;
-})
+questionType = computed(() => this.question().type);
 
+componentRef = computed(() => {
+  const type = this.questionType(); // <-- reactive
+  const def = this.fieldsTypesService.getTypeComponent(type);
+  return def?.component || null;
+});
 
+fieldLabel = computed(() => {
+  const type = this.questionType(); 
+  const def = this.fieldsTypesService.getTypeComponent(type);
+  return def?.answerLabel || null;
+});
 }

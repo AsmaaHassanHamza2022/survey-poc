@@ -1,4 +1,4 @@
-import { NgComponentOutlet, NgIf } from '@angular/common';
+import { JsonPipe, NgComponentOutlet, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldsTypesDefinitions } from '../../Services/fields-types-definitions';
@@ -7,7 +7,7 @@ import { FormField } from '../form-field/form-field';
 
 @Component({
   selector: 'app-form-designer',
-  imports: [NgComponentOutlet,NgIf,FormsModule,FormField],
+  imports: [NgComponentOutlet,NgIf,FormsModule,FormField,JsonPipe],
   templateUrl: './form-designer.html',
   styleUrl: './form-designer.scss',
 })

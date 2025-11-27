@@ -1,0 +1,8 @@
+@for(option of question()?.options;track option;let i=$index) {
+    <div class="d-flex justify-content-between align-items-center">
+        {{option}}
+        <!-- <button (click)="removeOption(question.id,i)" type="button" class="btn btn-sm btn-danger">-</button> -->
+        <!-- <input [(ngModel)]="option" type="text" class="form-control mx-2" /> -->
+        <!-- <button (click)="addOption(question.id)" type="button" class="btn btn-sm btn-success">+</button> -->
+    </div>
+}
