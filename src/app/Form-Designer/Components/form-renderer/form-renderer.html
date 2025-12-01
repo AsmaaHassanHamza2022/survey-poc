@@ -1,0 +1,73 @@
+<form (ngSubmit)="submitForm()">
+    @for(page of formData(); track page.id){
+    <h2>{{ page.title }}</h2>
+
+    @for(q of page.questions; track q.id){
+    @if(isQuestionVisible(q)){
+    <div class="form-group">
+
+        <label [for]="q.id">
+            {{ q.questionText }}
+            @if(q.isRequired){
+            <span class="required-star text-danger">*</span>
+            }
+
+        </label>
+        @if(q.descriptionText){
+        <small>{{ q.descriptionText }}</small>
+
+        }
+
+        <div class="form-question-body">
+
+            @switch (q.type) {
+
+            @case ('oneSelect') {
+            <select [name]="q.id"   [(ngModel)]="userAnswers[q.id]" (ngModelChange)="onAnswerChange(q.id, $event)"
+                    [required]="q.isRequired" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                @for (option of q.options; track option.value) {
+                <option [value]="option.value">{{option.label}}</option>
+                }
+            </select>
+
+            <!-- <div class="radio-option">
+                <input type="radio" [id]="q.id + '-' + option.value" [name]="q.id" [value]="option.value"
+                    [(ngModel)]="userAnswers[q.id]" (ngModelChange)="onAnswerChange(q.id, $event)"
+                    [required]="q.isRequired">
+                <label [for]="q.id + '-' + option.value">
+                    {{ option.label }}
+                </label>
+            </div> -->
+
+            }
+
+            @case ('shortText') {
+            <input type="text" [id]="q.id" class="form-control mb-3" [(ngModel)]="userAnswers[q.id]"
+                (ngModelChange)="onAnswerChange(q.id, $event)" [name]="q.id" [required]="q.isRequired">
+            }
+             @case ('longText') {
+            <textarea class="form-control textarea-input" rows="10" [id]="q.id" class="form-control mb-3" [(ngModel)]="userAnswers[q.id]"
+                (ngModelChange)="onAnswerChange(q.id, $event)" name="longText" [required]="q.isRequired">
+                </textarea>
+            }
+
+            @default {
+            <p class="text-danger">
+                Error: Unknown question type ({{ q.type }})
+            </p>
+            }
+
+            }
+
+        </div>
+
+
+    </div>
+    }
+
+    }
+    <hr>
+    }
+
+    <button type="submit" class="btn btn-success">Submit Form</button>
+</form>

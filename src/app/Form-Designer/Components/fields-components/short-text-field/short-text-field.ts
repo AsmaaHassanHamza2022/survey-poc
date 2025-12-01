@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { BaseFields } from '../base-fields/base-fields';
 
 @Component({
   selector: 'app-short-text-field',
@@ -6,9 +7,6 @@ import { Component, input } from '@angular/core';
   templateUrl: './short-text-field.html',
   styleUrl: './short-text-field.scss',
 })
-export class ShortTextField {
-  designMode=input<boolean>();
-
-  field=input.required();
+export class ShortTextField extends BaseFields {
 
 }

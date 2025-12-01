@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Page, Question } from '../models/models';
+import { QuestionTypes } from '../utils/helpers/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -30,13 +31,27 @@ export class FormFields {
       return;
     }
     if (page) {
-      page.questions.push({
-        id: crypto.randomUUID().toString(),
-        type: questionType,
-        questionText: '',
-        descriptionText: '',
-        isRequired: false,
-      });
+      page.questions = [
+        ...page.questions,
+        {
+          id: crypto.randomUUID().toString(),
+          type: questionType,
+          questionText: 'Add Your Question Text Here',
+          descriptionText: '',
+          isRequired: false,
+          options: [],
+          showIf: {
+            questionId: '',
+            value: '',
+          },
+          // options: questionType === QuestionTypes.OneSelect ? [
+          //   `Option 1`,
+          //   'None',
+          //   'Other'
+          // ] :[],
+        },
+      ];
+      this.pages = [...this.pages]; // to trigger change detection
     }
   }
   duplicateQuestion(pageId: string, question: Question) {
@@ -58,7 +73,24 @@ export class FormFields {
       const question = page.questions.find((q) => q.id === questionId);
       if (question) {
         page.questions = page.questions.map((q) =>
-          q.id === questionId ? { ...q, type: newType } : q
+          q.id === questionId
+            ? {
+                ...q,
+                type: newType,
+                options:
+                  newType === QuestionTypes.OneSelect
+                    ? [
+                        {
+                          label: 'Option',
+                          value: 'Option',
+                          canDelete: false,
+                        },
+                        // {label:'None' ,canDelete:false},
+                        // {label:'Other' ,canDelete:false},
+                      ]
+                    : [],
+              }
+            : q
         );
       }
       this.pages = [...this.pages]; // to trigger change detection
@@ -77,7 +109,15 @@ export class FormFields {
     if (page) {
       const question = page.questions.find((q) => q.id === questionId);
       if (question) {
-        question.options?.push(option);
+        question.options = [
+          ...(question.options || []),
+          {
+            label: option,
+            value: option,
+            canDelete: true,
+          },
+        ];
+        this.pages = [...this.pages]; // to trigger change detection
       }
     }
   }
@@ -95,6 +135,75 @@ export class FormFields {
     }
   }
 
+  updatePageQuestions(pageId: string, questions: Question[]) {
+    let page = this.pages.find((p) => p.id === pageId);
+    if (page) {
+      page = {
+        ...page,
+        questions: [...questions],
+      };
+    }
+  }
+
+  getQuestionPage(questionId: string): Page {
+    for (const page of this.pages) {
+      if (page.questions.some((q) => q.id === questionId)) {
+        return page;
+      }
+    }
+    return {} as Page;
+  }
+
+  shouldShowQuestion2(question: Question): boolean {
+    // No condition → always show
+    if (!question.showIf) return true;
+
+    const page = this.getQuestionPage(question.showIf.questionId);
+    if (!page) return true;
+
+    const controller = page.questions?.find(
+      (q) => q.id === question.showIf!.questionId
+    );
+    if (!controller) return true;
+
+    return controller.selectedOption === question.showIf!.value;
+  }
+  shouldShowQuestion(question: Question, answers=null): boolean {
+    if (!question.showIf) return true;
+
+    const controller = this.findQuestionById(question.showIf.questionId);
+    if (!controller) return true;
+
+    if(answers){
+      const controllerAnswer = answers[controller.id];
+      return controllerAnswer === question.showIf.value;
+    }
+     return true;
+  }
+
+  findQuestionById(id: string): Question | null {
+    for (const page of this.pages) {
+      for (const q of page.questions) {
+        if (q.id === id) return q;
+      }
+    }
+    return null;
+  }
+  getAllQuestionsExcept(excludedId: string): Question[] {
+    if (!excludedId) return this.pages.flatMap((p) => p.questions);
+
+    return this.pages
+      .flatMap((p) => p.questions)
+      .filter((q) => q.id !== excludedId);
+  }
+
+  getQuestionOptions(questionId: string) {
+    if (!questionId) return [];
+    const q = this.pages
+      .flatMap((p) => p.questions)
+      .find((q) => q.id === questionId);
+    return q?.options || [];
+  }
   save() {
     console.log('Form Structure:', JSON.stringify(this.pages, null, 2));
   }

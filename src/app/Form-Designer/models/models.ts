@@ -18,7 +18,18 @@ export interface Question extends FormField {
     questionText: string;
     descriptionText: string;
     isRequired: boolean;
-    options?: string[];
+    options?: OptionItem[];
+    selectedOption?: 'string';
+    showIf:{
+        questionId:string;
+        value:string;
+    }
+}
+
+export interface OptionItem{
+    label:string;
+    value:string;
+    canDelete:boolean;
 }
 
 export interface Page{

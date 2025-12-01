@@ -1,8 +1,24 @@
-@for(option of question()?.options;track option;let i=$index) {
-    <div class="d-flex justify-content-between align-items-center">
-        {{option}}
-        <!-- <button (click)="removeOption(question.id,i)" type="button" class="btn btn-sm btn-danger">-</button> -->
-        <!-- <input [(ngModel)]="option" type="text" class="form-control mx-2" /> -->
-        <!-- <button (click)="addOption(question.id)" type="button" class="btn btn-sm btn-success">+</button> -->
+<select (change)="fieldValue.set($any($event).target.value)"  [disabled]="designMode()" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    @for(option of question()?.options;track option;let optionIndex=$index) {
+    <option [value]="option.value">{{option.label}}</option>
+    }
+</select>
+
+@if(designMode()){
+<div class="w-50 options d-flex flex-column gap-3">
+    @for(option of question()?.options;track option;let optionIndex=$index) {
+    <div class="d-flex justify-content-between align-items-center mb-2">
+    @if(option.canDelete){
+        <button (click)="formFeildService.deleteOptionFromQuestion(currentQuestionPageId(),question().id,optionIndex)"
+            type="button" class="btn btn-sm btn-danger">-</button>
+        }
+        <input #Input [ngModel]="option.value" (ngModelChange)="updateOption(option,$event)" type="text" class="form-control mx-2" />
     </div>
+    }
+    <button
+        (click)="formFeildService.addQuestionsOption(currentQuestionPageId(),question().id,'New Option')"
+        type="button" class="btn btn-sm btn-success">Add New Option </button>
+
+</div>
+
 }

@@ -5,14 +5,19 @@
                 <button (click)="toggleTo('designMode')" class="btn"
                     [ngClass]="IsDesignMode ?'btn-primary' :'btn-light'">Design Mode</button>
                 <button (click)="toggleTo('perviewMode')" class="btn"
-                    [ngClass]="!IsDesignMode ?'btn-primary' :'btn-light'">Preview Mode </button>
+                    [ngClass]="IsPreviewMode ?'btn-primary' :'btn-light'">Preview Mode </button>
+                     <button (click)="toggleTo('JsonView')" class="btn"
+                    [ngClass]="IsJsonMode ?'btn-primary' :'btn-light'">Json Mode </button>
             </div>
             @if(formFieldsService.pages.length){
             @if(IsDesignMode){
             <app-form-designer></app-form-designer>
             }
-            @else{
-            <app-form-perviewer></app-form-perviewer>
+            @else if(IsPreviewMode){
+                <app-form-renderer></app-form-renderer>
+            <!-- <app-form-perviewer></app-form-perviewer> -->
+            }@else {
+            <pre>{{formFieldsService.pages | json}}</pre>
             }
             }
             @else{

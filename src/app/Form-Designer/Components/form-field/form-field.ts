@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, model } from '@angular/core';
 import { FieldsTypesDefinitions } from '../../Services/fields-types-definitions';
 import { Question } from '../../models/models';
 
@@ -10,10 +10,12 @@ import { Question } from '../../models/models';
   styleUrl: './form-field.scss',
 })
 export class FormField {
+fieldValue=model()
 isDesignMode=input<boolean>();
 question=input.required<Question>();
 fieldsTypesService=inject(FieldsTypesDefinitions);
 questionType = computed(() => this.question().type);
+
 
 componentRef = computed(() => {
   const type = this.questionType(); // <-- reactive
@@ -26,4 +28,9 @@ fieldLabel = computed(() => {
   const def = this.fieldsTypesService.getTypeComponent(type);
   return def?.answerLabel || null;
 });
+
+onValueChanged(event:any){
+  debugger
+  console.log('Field Value Changed:', event); 
+}
 }

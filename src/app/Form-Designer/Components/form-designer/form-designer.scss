@@ -1,0 +1,17 @@
+.drag-preview {
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  background: #fff;
+  width: 320px;
+  pointer-events: none;
+  transform: rotate(0deg);
+}
+
+.drag-placeholder {
+  min-height: 64px; /* match your card height */
+  background: rgba(0,0,0,0.03);
+  border-style: dashed;
+  border-color: #cfcfcf;
+}
+.drag-icon{
+    cursor: move;
+}

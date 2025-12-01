@@ -1,5 +1,6 @@
 <div class="long-text-field">
   <textarea 
+  (change)="fieldValue.set($any($event).target.value)"
    [disabled]="designMode()"
    rows="10"
     class="form-control textarea-input">

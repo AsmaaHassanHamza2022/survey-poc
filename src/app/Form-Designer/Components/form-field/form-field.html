@@ -5,8 +5,8 @@
 }
 <ng-container
   *ngComponentOutlet="
-      componentRef();
-      inputs: { designMode: isDesignMode() ,question: question() }
+      componentRef(); 
+      inputs: { designMode: isDesignMode() ,question: question() , fieldValue: onValueChanged}
   "
 ></ng-container>
 }
