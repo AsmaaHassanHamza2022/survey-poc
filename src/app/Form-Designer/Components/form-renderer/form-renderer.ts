@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './form-renderer.scss',
 })
 export class FormRenderer {
+page:Page|null=null;
 formData=signal<Page[]>([]);
 formfieldsService=inject(FormFields);
 
@@ -20,6 +21,7 @@ formfieldsService=inject(FormFields);
 
   ngOnInit() {
     this.formData.set(this.formfieldsService.pages);
+    this.page=this.formData()[0];
    
     this.initializeAnswers();
   }
@@ -60,9 +62,33 @@ formfieldsService=inject(FormFields);
     console.log('Current Answers:', this.userAnswers);
   }
 
+  LoadPerviousPage(){
+    if(this.hasPrevious()){
+      this.page = this.formData()[this.currentPageIndex -1];
+    }
+  }
+  loadNextPage(){
+    if(this.hasNext()){
+      this.page = this.formData()[this.currentPageIndex +1];
+    }
+  }
   // Placeholder for form submission logic
   submitForm(): void {
     console.log('Form Submitted!', this.userAnswers);
     // You would typically send this data to a backend service here.
+  }
+
+  hasPrevious(){
+    return this.currentPageIndex > 0
+  }
+  hasNext(){
+    return this.currentPageIndex < this.formData().length - 1
+  }
+
+  get currentPageIndex(){
+    return this.formData().findIndex((page)=>page.id === this.page?.id)
+  }
+  get isLastPage(){
+    return this.currentPageIndex === this.formData().length -1;
   }
 }

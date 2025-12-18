@@ -1,5 +1,6 @@
-<form (ngSubmit)="submitForm()">
-    @for(page of formData(); track page.id){
+@if(page){
+    <form (ngSubmit)="submitForm()">
+    <!-- @for(page of formData(); track page.id){ -->
     <h2>{{ page.title }}</h2>
 
     @for(q of page.questions; track q.id){
@@ -67,7 +68,14 @@
 
     }
     <hr>
-    }
+    <!-- } -->
+    <div class="my-2 d-flex align-items-center justify-content-between">
+        <button [disabled]="!hasPrevious()" class="btn btn-warning" (click)="LoadPerviousPage()">Pervious</button>
+        <button [type]="isLastPage ?'submit':'button'" [disabled]="!hasNext() && !isLastPage" class="btn btn-success" (click)="hasNext() ? loadNextPage() : null">{{ isLastPage ? "Submit":"Next"}}</button>
+        
 
-    <button type="submit" class="btn btn-success">Submit Form</button>
+    </div>
+
+    <!-- <button type="submit" class="btn btn-success">Submit Form</button> -->
 </form>
+}

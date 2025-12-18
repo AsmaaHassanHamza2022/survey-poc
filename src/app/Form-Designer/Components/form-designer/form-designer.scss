@@ -15,3 +15,12 @@
 .drag-icon{
     cursor: move;
 }
+.collapsed-content{
+  transition: height 1s;
+  &.collapsed{
+    position: relative;
+    z-index: -1;
+    height: 0px;
+    opacity: 0;
+  }
+}

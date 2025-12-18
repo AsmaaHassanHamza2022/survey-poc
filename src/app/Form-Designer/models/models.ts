@@ -24,6 +24,7 @@ export interface Question extends FormField {
         questionId:string;
         value:string;
     }
+    isCollapsed?:boolean
 }
 
 export interface OptionItem{

@@ -10,12 +10,13 @@
             @for(question of page.questions;track question.id) {
             <div cdkDrag [cdkDragData]="question"
                 class="form-group bg-white p-3 border rounded-2 d-flex flex-column gap-3">
-                <div class="drag-icon d-flex justify-content-end align-items-center gap-2">
+                <div class=" d-flex justify-content-end align-items-center gap-3">
                     <img src="icons/duplicate.svg" (click)="formFieldsService.duplicateQuestion(page.id, question)"
                         alt="duplicate-icon" />
                     <img (click)="formFieldsService.deleteQuestionFromPage(page.id, question.id)" src="icons/trash.svg"
                         alt="drag-icon" />
-                    <img src="icons/drag-icon.svg" alt="drag-icon" />
+                    <img  class="drag-icon" src="icons/drag-icon.svg" alt="drag-icon" />
+                    <img width="20" height="20" (click)="toggleCollapse(page.id,question.id)" [src]="question.isCollapsed ? 'icons/collapse.svg' :'icons/expand.svg'"/>
                 </div>
                 <ng-template cdkDragPreview>
                     <div class="drag-preview card p-3">
@@ -54,6 +55,7 @@
                             class="form-control" />
                     </div>
                 </div>
+                <div class="collapsed-content" [class.collapsed]="question.isCollapsed">
                 <div class="row">
                     <app-form-field [question]="question" [isDesignMode]="true"></app-form-field>
                 </div>
@@ -100,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-
+               </div>
             </div>
             }@empty{
             <p class="text-center text-secondary">No Questions Added Yet</p>

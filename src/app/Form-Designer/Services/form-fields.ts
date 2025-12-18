@@ -204,6 +204,22 @@ export class FormFields {
       .find((q) => q.id === questionId);
     return q?.options || [];
   }
+
+   ToggleCollapsedQuestion(pageId: string, questionsId:string) {
+    let page = this.pages.find((p) => p.id === pageId);
+    if (page) {
+      const question=page.questions.find((q)=>q.id === questionsId);
+      if(question){
+        question.isCollapsed= !question.isCollapsed ;
+      }
+    //   page = {
+    //     ...page,
+    //     questions: [
+    //       ...page.questions
+    //     ],
+    //   };
+    }
+  }
   save() {
     console.log('Form Structure:', JSON.stringify(this.pages, null, 2));
   }

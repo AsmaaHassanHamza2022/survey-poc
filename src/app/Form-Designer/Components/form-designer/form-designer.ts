@@ -17,7 +17,6 @@ export class FormDesigner {
     fieldsTypesService=inject(FieldsTypesDefinitions);
     formFieldsService=inject(FormFields);
     relatedOptions: OptionItem[] = [];
-
      // handle drop; event.previousContainer === event.container => reorder within same list
   onQuestionDrop(event: CdkDragDrop<Question[]>, page: Page) {
     if (!event || !page) return;
@@ -48,5 +47,8 @@ export class FormDesigner {
     this.relatedOptions=this.formFieldsService
                                 .getQuestionOptions(question.showIf.questionId)
 
+  }
+  toggleCollapse(pageId:string,questionId:string){
+    this.formFieldsService.ToggleCollapsedQuestion(pageId,questionId);
   }
 }
